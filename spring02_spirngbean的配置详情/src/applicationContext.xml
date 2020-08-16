@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    上面是引入 spring的 bean 配置的约束
+         xml的约束 (这里的标签 不要随便写  )
+
+         bean 配置一个对象添加到 spring容器中
+
+         id    在容器中的对象的id
+         name  在容器中配置对象的名称name
+               和 id一样 (可以给特殊符号  /demo01 历史遗留问题 用的少)
+         class 全限定名 (包 + 类名 )
+-->
+    <bean id="u1" class="com.sxt.demo01.bean.User">
+
+    </bean>
+<!--    alias 标签的配置 bean的别名配置
+        name 使用 bean标签中的 id或者name的名称
+        alias 别名的名称
+        在容器中可以使用别名获取配置的bean对象
+-->
+    <alias name="u1" alias="user"></alias>
+
+<!--
+     scope  bean的范围:
+     singleton 单例 (默认)
+         spirng容器启动后 创建一个对象  (getBean  每次都同一个对象
+         如果使用这个对象 一直存在
+         ioc容器关闭后 单例对象才销毁
+
+     prototype
+          srping 容器启动后创建的对象 (getBean  每次都是创建一个新对象)
+          如果一致使用这个对象 一致存
+          如果很久没有使用这个对象 java的jvm 会回收这个对象
+
+     scope配置的总结:
+      scope de配置默认是 单列 也是用的最多 可以省略
+-->
+<!--    <bean id="u2" class="com.sxt.demo01.bean.User" scope="singleton"></bean>-->
+
+    <bean id="u2" class="com.sxt.demo01.bean.User" scope="prototype"></bean>
+
+
+<!--    配置stu对象
+       创建的时候回调用空构造器
+ -->
+<!--    <bean id="stu" class="com.sxt.demo01.bean.Student"></bean>-->
+
+<!--    通过工厂对象创建bean -->
+    <bean id="stu1" class="com.sxt.demo01.bean.BeanFactory" factory-method="getBeanFactory">
+    </bean>
+
+    <bean id="stu2" class="com.sxt.demo01.bean.BeanMyFactory"></bean>
+
+<!--
+   spring 容器关闭后  会调用 init方法
+   spring容器关闭后 会调用 destroy
+-->
+    <bean id="p1" class="com.sxt.demo01.bean.Person"
+    init-method="init"
+          destroy-method="destroy"
+    ></bean>
+
+
+</beans>

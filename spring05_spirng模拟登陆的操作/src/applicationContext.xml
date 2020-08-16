@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    ">
+
+<!--    配置dao -->
+    <bean id="userDao" class="com.sxt.demo01.dao.UserDao"></bean>
+
+<!--    配置service -->
+    <bean id="userService" class="com.sxt.demo01.service.impl.UserServiceImpl">
+<!--        依赖关系 -->
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+
+<!--    把controller给容器管理
+        把项目中的类 之间的关系依赖都交给spring管理
+-->
+    <bean id="userController" class="com.sxt.demo01.controller.UserServlet">
+        <property name="userservice" ref="userService"></property>
+    </bean>
+
+</beans>

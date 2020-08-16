@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    spring的di的操作
+        property 对象的属性注入
+        name   是bean对象的属性名称
+        value  是bean对象属性配置的值
+
+        创建对象 User  直接把 property配置的属性复制给 u1 对象 这个就是di
+
+        有引用数据类型如何处理?
+            property标签提供 ref 的引用 (可以直接引用 注入ioc容器的其他对象)
+
+        总结:
+          1. set方法要有
+          2. ref使用的时候 ioc容器中要存在这个对象
+
+-->
+
+    <bean id="u1" class="com.sxt.demo01.bean.User">
+        <property name="name" value="王语嫣"></property>
+        <property name="age" value="30"></property>
+    </bean>
+
+
+<!--    user 对象中有其他对象的引用
+        property 使用ref
+    -->
+    <bean id="car" class="com.sxt.demo01.bean.Car">
+        <property name="brand" value="大众"/>
+        <property name="price" value="100000"/>
+    </bean>
+
+<!--    java jdk中的类 -->
+    <bean id="date" class="java.util.Date"></bean>
+
+    <bean id="u2" class="com.sxt.demo01.bean.User">
+        <property name="name" value="乔峰"/>
+        <property name="age" value="40"/>
+<!--        引用类型的配置
+             ref 的值指向 来  ioc容器的name或者id
+ -->
+        <property name="car" ref="car"/>
+        <property name="date" ref="date"/>
+    </bean>
+
+<!--    构造器的注入
+       constructor-arg  构造器的 参数名称
+       index     第几个参数  从0开始
+       name     构造器参数名称
+       value    参数的值
+       type    参数的数据类型
+       index和name 属性二选一
+
+       如果没有对应的参数构造器 配置会报错
+       type 可以省略 会自动判断类型
+       name的名称 一定要 bean的属性名称一致
+
+       如果有引用类型    value改成 ref
+ -->
+
+    <bean id="p1" class="com.sxt.demo01.bean.Person">
+<!--        <constructor-arg index="0" name="name" value="周芷若" type="java.lang.String"/>-->
+        <constructor-arg index="0" value="周芷若"/>
+        <constructor-arg index="1" value="21"/>
+    </bean>
+
+<!--    引用类型的构造的注入  -->
+
+    <bean id="c1" class="com.sxt.demo01.bean.Car">
+        <property name="brand" value="法拉利"/>
+        <property name="price" value="200"/>
+    </bean>
+
+    <bean id="p2" class="com.sxt.demo01.bean.Person">
+        <constructor-arg index="0" name="name" value="任盈盈"/>
+        <constructor-arg index="1" name="age" value="25"/>
+        <constructor-arg index="2" name="car" ref="c1"/>
+    </bean>
+
+<!--    集合参数的配置和 注入
+           property 里面可以配置 集合
+                    set / list / map 配置集合
+ -->
+
+    <bean id="collection" class="com.sxt.demo01.bean.CollectionBean">
+<!--        属性的配置 -->
+        <property name="set">
+            <set>
+                <value>任我行</value>
+                <value>东方不败</value>
+                <value>岳不群</value>
+            </set>
+        </property>
+
+<!--        配置属性集合 -->
+        <property name="list">
+            <list>
+                <value>林平之</value>
+                <value>左冷禅</value>
+                <value>东方不败</value>
+            </list>
+        </property>
+<!--        属性map的配置
+            map中存储的是k-v 不能给value
+            entry
+ -->
+        <property name="map">
+            <map>
+                <entry key="11" value="张无忌"></entry>
+                <entry key="22" value="赵敏"></entry>
+                <entry key="33" value="小昭"></entry>
+            </map>
+        </property>
+
+        <property name="props">
+            <props>
+                <prop key="username">scott</prop>
+                <prop key="password">tiger</prop>
+            </props>
+        </property>
+
+        <property name="cars">
+            <list>
+                <bean id="c5" class="com.sxt.demo01.bean.Car">
+                    <property name="brand" value="大众"></property>
+                </bean>
+                <bean id="c6" class="com.sxt.demo01.bean.Car">
+                    <property name="brand" value="丰田"></property>
+                </bean>
+                <bean id="c7" class="com.sxt.demo01.bean.Car"></bean>
+            </list>
+        </property>
+
+    </bean>
+
+</beans>

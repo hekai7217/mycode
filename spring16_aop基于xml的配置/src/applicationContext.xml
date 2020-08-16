@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xmlns:aop="http://www.springframework.org/schema/aop"
+           xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+
+<!--    配置 service 配置到 ioc中 -->
+    <bean id="userService" class="com.sxt.service.impl.UserServiceImpl"></bean>
+
+    <bean id="userServiceB" class="com.sxt.service.impl.UserServiceBImpl"></bean>
+
+<!--    把通知配置到ioc容器中-->
+    <bean id="myAdvice" class="com.sxt.advice.MyAdvice"></bean>
+
+<!--
+         使用aop的配置 :
+           把通知advice 配置到 userService 里面 的方法 进行 增强
+
+         spring的aop的配置:
+           1. 引入 aop的命名空间
+           2. 使用标签进行配置  aop:config   aop 的配置
+-->
+    <aop:config>
+
+<!--        切点  需要增强的方法
+              切点的表达式:
+              表达式语法：execution([修饰符] 返回值类型 包名.类名.方法名(参数))
+              完整的切点表达式:  只对 这个方法进行增强
+                      public void com.sxt.service.impl.UserServiceImpl.insert()
+
+              修饰符可以省略 返回值可以是任意 *
+                       * com.sxt.service.impl.UserServiceImpl.insert()
+                   修饰符可以省略 返回值可以是任意. 方法的参数可以忽略 ..
+                       * com.sxt.service.impl.UserServiceImpl.insert(..)
+                      某一个类中的所有的方法
+                       * com.sxt.service.impl.UserServiceImpl.*(..)
+                       某一个包下面的所有的类
+                       * com.sxt.service.impl.*.*(..)
+                       某一个包下面的所有的子包的所有的类 的所有的方法都可以进行增强
+                       * com.sxt.service..*.*(..)
+
+-->
+        <aop:pointcut id="pc" expression="execution( * com.sxt.service.impl.*.*())"/>
+
+<!--       切面的面的配置  连接点 + 通知   -->
+        <aop:aspect ref="myAdvice">
+<!--            通知 + 切点
+                      aop:before 配置前置通知   method 通知的方法(增强的方法)
+                      pointcut-ref 配置切点
+-->
+           <aop:before method="before" pointcut-ref="pc"></aop:before>
+
+<!--            后置 通知-->
+            <aop:after-returning method="afterReturn" pointcut-ref="pc"></aop:after-returning>
+
+<!--            最终通知-->
+            <aop:after method="afterFianl" pointcut-ref="pc"></aop:after>
+
+<!--            配置异常通知
+                 有异常才会执行
+-->
+<!--            <aop:after-throwing method="throwEx" throwing="t" pointcut-ref="pc"></aop:after-throwing>-->
+
+<!--            环绕通知的配置 -->
+<!--            <aop:around method="around" pointcut-ref="pc"></aop:around>-->
+        </aop:aspect>
+    </aop:config>
+
+
+
+
+</beans>
