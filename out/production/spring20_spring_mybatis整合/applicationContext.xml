@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xmlns:aop="http://www.springframework.org/schema/aop"
+           xmlns:tx="http://www.springframework.org/schema/tx"
+           xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+    <context:component-scan base-package="com.sxt"></context:component-scan>
+
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+<!--     数据库连接池的配置 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+<!--    通过spring 创建一个 sqlsessionFactory -->
+<!--    创建 sqlSession -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--           数据库连接池-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--     配置 resource.xml
+          如果你的mapper和 xml写在 一个包中
+          mapperLocations 可以不用配置
+        -->
+        <property name="mapperLocations">
+            <array>
+                <!--                如果有好多mapper 可以用 * + 后缀-->
+                <value>classpath:mapper/*Mapper.xml</value>
+            </array>
+        </property>
+        <!--       typeAliasesPackage 配置别名包 一般用于配置 bean  config中不要配置  -->
+<!--        <property name="typeAliasesPackage" value="com.sxt.bean"></property>-->
+        <!--         配置mybatis-config 这个配置可以不需要
+                     需要在config中配置( 驼峰命令 )
+        -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+
+<!--    创建mapper的配置  -->
+<!--    <bean id="stuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+<!--&lt;!&ndash;        session 从 sqlSessionFactory&ndash;&gt;-->
+<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>-->
+<!--&lt;!&ndash;        mapper 接口&ndash;&gt;-->
+<!--        <property name="mapperInterface" value="com.sxt.dao.StuMapper"/>-->
+<!--    </bean>-->
+<!--    mapper 的配置有包扫描  包扫描
+             可以直接扫描指定的mapper接口 创建对象 添加到ioc容器中,
+             默认的id为 类的首字母小写
+                 StuMapper =====> stuMapper
+
+ -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--        配置 sqlsessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+<!--      配置扫描的包 -->
+        <property name="basePackage" value="com.sxt.dao"></property>
+    </bean>
+
+</beans>
