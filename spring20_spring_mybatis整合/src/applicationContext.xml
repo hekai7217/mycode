@@ -38,7 +38,8 @@
         <property name="mapperLocations">
             <array>
                 <!--                如果有好多mapper 可以用 * + 后缀-->
-                <value>classpath:mapper/*Mapper.xml</value>
+<!--                <value>classpath:mapper/*Mapper.xml</value>-->
+                <value>classpath:com/sxt/dao/*Mapper.xml</value>
             </array>
         </property>
         <!--       typeAliasesPackage 配置别名包 一般用于配置 bean  config中不要配置  -->
