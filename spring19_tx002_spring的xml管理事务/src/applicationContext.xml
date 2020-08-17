@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xmlns:aop="http://www.springframework.org/schema/aop"
+           xmlns:tx="http://www.springframework.org/schema/tx"
+           xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+    <context:component-scan base-package="com.sxt"></context:component-scan>
+
+<!--    引入 db.perperties -->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+<!--    配置 jdbc的模板-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+<!--    配置 dao和 service的依赖 -->
+    <bean id="accountDao" class="com.sxt.dao.AccountDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>
+
+    <bean id="accountService" class="com.sxt.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao"></property>
+    </bean>
+
+<!--    配置事务管理器  -->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--        注入 数据库连接 -->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+<!--    aop配置
+       增强: 配置事务的通知
+       tx:advice 事务的通知
+       id  事务通知的id
+       transaction-manager 管理器
+
+       tx:attributes 通知的属性
+            要到那个方法进行 增强( 事务管理  )
+-->
+    <tx:advice id="tx" transaction-manager="dataSourceTransactionManager">
+        <tx:attributes>
+            <tx:method name="transfer"/>
+        </tx:attributes>
+    </tx:advice>
+
+<!--
+    在什么地方 要对那个方法(切点)   进行增强 (通知)
+-->
+
+    <aop:config>
+<!--        切点的配置 -->
+        <aop:pointcut id="pc" expression="execution(* com.sxt.service.impl..*.*(..))"/>
+
+<!--       配置通知
+         aop:advisor
+         advice-ref 引入通知
+         pointcut-ref 切点
+
+         aop:advisor 切面的配置( 通知 + 切点 )
+         aop:aspect  切面的配置( 通知 + 切点 )
+
+         通知有另外的一个写法:
+          01  aop:advisor  为实现接口  Advice 进行配置 切面
+              aop:aspect   没有是实现接口 用aspect 配置
+          02   应用场景:
+               事务的管理 用这个 aop:advisor
+-->
+        <aop:advisor advice-ref="tx" pointcut-ref="pc"></aop:advisor>
+    </aop:config>
+
+</beans>
