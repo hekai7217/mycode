@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    上面是引入 spring的 bean 配置的约束
+         xml的约束 (这里的标签 不要随便写  )
+
+         bean 配置一个对象添加到 spring容器中
+         id    在容器中的对象的id
+         class 全限定名 (包 + 类名 )
+-->
+    <bean id="stuService" class="com.sxt.demo01.service.StuService"></bean>
+
+<!--    配置 service对象 -->
+    <bean id="cService1" class="com.sxt.demo01.service.impl.CusumerServiceImpl02"></bean>
+    <bean id="cService2" class="com.sxt.demo01.service.impl.CusumerServiceImpl02"></bean>
+
+</beans>

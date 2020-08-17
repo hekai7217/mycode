@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+    <!--    service 注入到ioc容器中-->
+    <bean id="userService" class="com.sxt.service.impl.UserServiceImpl"></bean>
+
+    <!--    配置通知 (TransactionManager ) -->
+    <bean id="tm" class="com.sxt.advice.TransactionManager"></bean>
+
+    <!--    aop的操作
+                 引入aop的 命名空间
+                 aop:config  aop的配置
+
+                 切点 ( 你拦截谁 (拦截的方法 ))
+                 <aop:pointcut >
+    -->
+    <aop:config>
+
+        <aop:pointcut id="pc" expression="execution(* com.sxt.service.impl.*.*(..))"/>
+
+        <!--      你要在哪里干什么   -->
+        <aop:aspect ref="tm">
+
+            <!--          前置通知 开启事务   在连接点 你要干啥-->
+<!--            <aop:before method="begin" pointcut-ref="pc"></aop:before>-->
+            <!--          后置通知  提交事务    在连接点 你要干啥-->
+<!--            <aop:after-returning method="commit" pointcut-ref="pc"></aop:after-returning>-->
+            <!--           异常通知  事务回滚  你要干啥-->
+<!--            <aop:after-throwing method="rollback" pointcut-ref="pc"></aop:after-throwing>-->
+            <!--        最终通知  关闭连接    在连接点 你要干啥-->
+<!--            <aop:after method="close" pointcut-ref="pc"></aop:after>-->
+
+<!--            上面的配置 很繁琐 可以配置 around-->
+
+            <aop:around method="around" pointcut-ref="pc"></aop:around>
+
+
+
+        </aop:aspect>
+
+    </aop:config>
+
+
+</beans>
