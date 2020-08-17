@@ -32,13 +32,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  *             jdbc/mybatis
  *             <bean class="DataSoruceTransactionManager"></bean>
- *
+ *                  配置事务管理器
+ *          <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ *               注入 数据库连接
+ *           <property name="dataSource" ref="dataSource"></property>
+ *           </bean>
  *
  *          3. aop配置事务
  *
+ *            <aop:config>
+ *        切点的配置
+ *         <aop:pointcut id="pc" expression="execution(* com.sxt.service.impl..*.*(..))"/>
+ *              配置通知
+ *          aop:advisor
+ *          advice-ref 引入通知
+ *          pointcut-ref 切点
+ *          aop:advisor 切面的配置( 通知 + 切点 )
+ *          aop:aspect  切面的配置( 通知 + 切点 )
  *
- *
- *
+ *          通知有另外的一个写法:
+ *           01  aop:advisor  为实现接口  Advice 进行配置 切面
+ *               aop:aspect   没有是实现接口 用aspect 配置
+ *           02   应用场景:
+ *                事务的管理 用这个 aop:advisor
+ *         <aop:advisor advice-ref="tx" pointcut-ref="pc"></aop:advisor>
+ *     </aop:config>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
