@@ -49,8 +49,6 @@ import java.util.List;
  *                  <resouce class="com/sxt/mapper/UserMapper.xml"/>
  *           </mappers>
          *
- *
- *
  */
 @Service
 public class StuServiceImpl implements StuService {

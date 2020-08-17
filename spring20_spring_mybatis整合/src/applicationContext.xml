@@ -45,7 +45,7 @@
         <!--       typeAliasesPackage 配置别名包 一般用于配置 bean  config中不要配置  -->
 <!--        <property name="typeAliasesPackage" value="com.sxt.bean"></property>-->
         <!--         配置mybatis-config 这个配置可以不需要
-                     需要在config中配置( 驼峰命令 )
+                     有些配置需要在config中配置( 驼峰命名 )
         -->
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
     </bean>
@@ -70,13 +70,11 @@
     </bean>
 
 <!--    整合事务的配置  -->
-
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据源 -->
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
     <!-- spring事务配置 -->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
 
