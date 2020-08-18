@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+">
+
+<!--    ioc容器 管理 controller
+          配置映射关系 通过 url找到  controller
+         配置 controller  url找到 controller
+
+         id和name的区别:
+         name 中可以用特殊字符串 / 推荐用name
+         浏览器请求项目的时候:
+         http://localhost/项目的访问路径/hello  这个请求到HelloController
+         中进行处理
+-->
+    <bean name="/hello" class="com.sxt.controller.HelloController"></bean>
+
+<!--    扫描 -->
+    <context:component-scan base-package="com.sxt.controller"></context:component-scan>
+
+<!--    导入命名空间mvc-->
+
+
+<!--    注解驱动 -->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+</beans>
