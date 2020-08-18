@@ -11,7 +11,7 @@
          id    在容器中的对象的id
          class 全限定名 (包 + 类名 )
 -->
-    <bean id="stuService" class="com.sxt.demo01.service.StuService"></bean>
+    <bean id="stuService" class="com.sxt.demo01.StuService"></bean>
 
 <!--    配置 service对象 -->
     <bean id="cService1" class="com.sxt.demo01.service.impl.CusumerServiceImpl02"></bean>

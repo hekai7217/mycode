@@ -79,18 +79,12 @@
          aop:aspect  切面的配置( 通知 + 切点 )
 
          通知有另外的一个写法:
-          01  aop:advisor 为实现接口  Advice 进行配置 切面
+          01  aop:advisor  为实现接口  Advice 进行配置 切面
               aop:aspect   没有是实现接口 用aspect 配置
-          02  引用场景:
+          02   应用场景:
                事务的管理 用这个 aop:advisor
 -->
         <aop:advisor advice-ref="tx" pointcut-ref="pc"></aop:advisor>
-
     </aop:config>
-
-
-
-
-
 
 </beans>

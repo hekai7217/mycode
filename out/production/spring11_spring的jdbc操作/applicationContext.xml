@@ -28,7 +28,7 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
-    <bean id="stuService" class="com.sxt.service.impl.StuServiceImpl">
+    <bean id="stuService" class="com.sxt.StuServiceImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"></property>
     </bean>
 
