@@ -70,7 +70,6 @@ public class StuController {
 
     /**
      *   跳转到 添加页面
-     * @param m
      * @return
      */
     @RequestMapping("/toAddStu.do")
