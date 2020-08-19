@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+">
+
+
+    <context:component-scan base-package="com.sxt.controller"></context:component-scan>
+
+
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--    配置视图解析器-->
+
+<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+
+
+<!--        <property name="prefix" value="/resp/"></property>-->
+<!--        &lt;!&ndash;        后缀 &ndash;&gt;-->
+<!--        <property name="suffix" value=".jsp"></property>-->
+
+<!--    </bean>-->
+
+<!--    配置文件上传解析器：bean的名字是固定的-->
+<!--    使用spring表达式 #{1024*1024}-->
+    <!-- 配置文件上传解析器：bean的名字是固定的,底层使用的名称注入 -->
+<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+<!--        &lt;!&ndash; 设置上传文件的最大尺寸为1MB &ndash;&gt;-->
+<!--        <property name="maxUploadSize" value="#{1024 * 1024}"></property>-->
+<!--    </bean>-->
+
+    <!-- 配置拦截器 :可以有多个拦截器-->
+    <mvc:interceptors>
+        <!--配置检查登录拦截器  -->
+        <mvc:interceptor>
+            <!-- 配置拦截的规则
+                只会拦截 控制器请求，不会拦截jsp页面
+                /*
+                    只能拦截一级 如 ： /list.do /delete.do
+                    如：/user/list.do , /user/delete.do 二级 不能拦截
+                /**
+                    可以拦截多级 无论几级都可以 如  /a/b/c/d/list.do
+             -->
+            <mvc:mapping path="/**"/>
+            <!-- 排除拦截的地址，多个地址使用逗号隔开
+                /user/login.do
+             -->
+            <mvc:exclude-mapping path="/login.do"/>
+            <!-- 拦截器的类型 -->
+            <bean class="com.sxt.intecepter.LoginCheckIntercepter"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+</beans>
