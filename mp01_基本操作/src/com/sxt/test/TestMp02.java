@@ -1,5 +1,6 @@
 package com.sxt.test;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sxt.bean.Student;
 import com.sxt.mapper.StudentMapper;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.management.Query;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +57,6 @@ public class TestMp02 {
         System.out.println("insert = " + insert);
 
     }
-
     /**
      *  修改的的方法:  通过id修改
      *    1. 一定要有id
@@ -115,6 +116,15 @@ public class TestMp02 {
     }
 
     @Test
+    public void  query03(){
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+        // 查询指定的列
+        queryWrapper.select("sage","s_name");
+        List<Student> students = studentMapper.selectList(queryWrapper);
+        System.out.println("students = " + students);
+    }
+
+    @Test
     public void delete01(){
 
         //通过id删除
@@ -139,8 +149,6 @@ public class TestMp02 {
         list.add(3);
         int i = studentMapper.deleteBatchIds(list);
         System.out.println("i = " + i);
-        
-        
 
     }
 }

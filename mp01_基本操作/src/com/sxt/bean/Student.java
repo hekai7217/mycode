@@ -24,7 +24,6 @@ public class Student {
 
     private Integer sage;
 
-
     private String ssex;
 
     private String sphone;
