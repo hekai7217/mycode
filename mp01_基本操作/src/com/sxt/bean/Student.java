@@ -32,7 +32,6 @@ public class Student {
     @TableField(exist =  false)
     private String info;
 
-
     public Integer getSid() {
         return sid;
     }
