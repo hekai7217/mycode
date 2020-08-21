@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
 /**
  * @author 黄药师
  * @date 2020-08-19 14:38
  * @desc 百战程序员 http://www.itbaizhan.com
- *
  *   ssm整合:
  *     1 导入jar
  *          spring的jar

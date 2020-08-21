@@ -72,6 +72,7 @@
                     alert(data.msg)
                 }
             },"json");
+
         }
     }
 </script>
