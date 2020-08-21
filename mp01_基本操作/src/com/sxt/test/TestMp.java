@@ -63,7 +63,6 @@ public class TestMp {
         StudentMapper studentMapper = app.getBean("studentMapper", StudentMapper.class);
 
         // 内置了一些方法 可以直接调用
-
         List<Student> students = studentMapper.selectList(null);
 
         System.out.println("students = " + students);

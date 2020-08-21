@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 
 /**
  * @author 黄药师
@@ -13,12 +16,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
  *   默认 对象的名称和表的名称一致
  *   解决 @TableName("t_student") 把对象和 数据库的表进行映射
  */
-public class Student {
+@TableName("t_student")
+public class Student  extends Model<Student> {
 
-    // 用在主键 上面  IdType.AUTO 是数据库主键自增   value (和数据库主键 映射 如果和数据库主键一样 可以 省略)
+    @TableId(type=IdType.AUTO)
     private Integer sid;
 
-    // 这个注解可以 把 属性名称 和表的自动进行映射
     @TableField("s_name")
     private String sName;
 
@@ -94,5 +97,11 @@ public class Student {
                 ", ssex='" + ssex + '\'' +
                 ", sphone='" + sphone + '\'' +
                 '}';
+    }
+
+    // 重写 pkVal方法  返回时 主键
+    @Override
+    protected Serializable pkVal() {
+        return this.sid;
     }
 }

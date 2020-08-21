@@ -31,19 +31,8 @@
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
 <!--           数据库连接池-->
         <property name="dataSource" ref="dataSource"></property>
-        <property name="globalConfig" ref="globalConfig"></property>
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
 
-        <!--配置mp的分页插件-->
-        <property name="plugins">
-            <array>
-                <!--配置分页插件:拦截对象-->
-                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
-                    <!--指明要进行分页操作的数据库-->
-                    <property name="dbType" value="MYSQL"></property>
-                </bean>
-            </array>
-        </property>
 
     </bean>
 
@@ -52,19 +41,6 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 <!--      配置扫描的包 -->
         <property name="basePackage" value="com.sxt.mapper"></property>
-    </bean>
-
-    <!--配置mp的全局策略-->
-    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
-        <!--配置数据库全局默认的映射关系-->
-        <property name="dbConfig">
-            <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
-                <!--声明全局默认类名的对应的表的前缀-->
-                <property name="tablePrefix" value="t_"></property>
-                <!--配置全局主键自增-->
-                <property name="idType" value="AUTO"></property>
-            </bean>
-        </property>
     </bean>
 
 <!--    整合事务的配置  -->
