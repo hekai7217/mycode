@@ -18,11 +18,9 @@
 <body>
 
 <script>
-
     $(function () {
         $("#tt").tree({
             onClick: function (node) {
-
                 // 点击 菜单的 二级节点
                var cs = node.children;
                if(!cs){ // 不是父节点
