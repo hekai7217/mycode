@@ -30,7 +30,6 @@
             //2 判断是否有子菜单
                var cs = node.children;
                if(!cs){
-
                     // 3判断 tabs 是否已存在
                    var flag =  $("#mainTabs").tabs('exists',node.text);
                     //    存在 选中
