@@ -293,7 +293,6 @@
     <a id="hostAccount" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-no'">账号禁用</a>
     <a id="editPower" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">权限设置</a>
     <a id="batch" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cut'">批量操作</a>
-
 </div>
 
 </body>
