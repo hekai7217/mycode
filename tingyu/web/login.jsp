@@ -52,11 +52,11 @@
         <form id="loginFrom" action="/ting/admin/login.do" method="post">
             <div style="text-align: center;margin-top: 20px">
                 <label for="aname">用户名:</label>
-                <input class="easyui-textbox" type="text" name="aname"/>
+                <input class="easyui-textbox" type="text" name="aname" value="admin"/>
             </div>
             <div style="text-align: center;margin-top: 20px">
                 <label for="apwd">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
-                <input class="easyui-passwordbox" type="text" name="apwd"/>
+                <input class="easyui-passwordbox" type="text" name="apwd" value="123"/>
             </div>
 
             <div style="text-align: center;margin-top: 20px">

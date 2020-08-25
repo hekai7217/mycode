@@ -1,5 +1,5 @@
 package com.sxt.pojo;
-
+import java.util.Map;
 /**
  * @author 黄药师
  * @date 2020-08-24 14:31
@@ -13,6 +13,17 @@ public class TreeResult {
     private String text;
 
     private String state;
+
+    // 异步树的 自定义属性
+    private Map<String,Object> attributes;
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
 
     public String getId() {
         return id;

@@ -28,8 +28,12 @@
             onClick:function (node) {
                 console.log(node);
             //2 判断是否有子菜单
-               var cs = node.children;
-               if(!cs){
+                // 判断的数据最好从服务器获取 是否是 parent 节点
+
+
+               var isparent = node.attributes.isparent;
+               // isparent = 1 是父节点
+               if(isparent != 1){
                     // 3判断 tabs 是否已存在
                    var flag =  $("#mainTabs").tabs('exists',node.text);
                     //    存在 选中
@@ -43,7 +47,9 @@
                            title: node.text,
                            selected:true,
                            closable:true,
-                           content:node.text
+                            // 可以在这里 写一个iframe 添加一个页面进来 url
+                           // 服务器把url传递过来
+                           content:"<iframe src='" + node.attributes.url + "' width='99%'  frameborder='no' border='0'  height='99%'/>"
                        });
                    }
                }
@@ -97,6 +103,8 @@
             <div title="Tab1" style="padding:20px;display:none;" data-options="closable:true"> tab1</div>
         </div>
     </div>
+
+
 </div>
 
 </body>
