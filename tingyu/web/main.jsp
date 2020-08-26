@@ -89,9 +89,9 @@
         </div>
     </div>
     <%--     网站的底部 --%>
-    <div data-options="region:'south',title:'网站底部',split:true" style="height:100px;">
-        网站底部
-    </div>
+<%--    <div data-options="region:'south',title:'网站底部',split:true" style="height:100px;">--%>
+<%--        网站底部--%>
+<%--    </div>--%>
     <%--     网站的系统菜单 左边  --%>
     <div data-options="region:'west',title:'系统菜单',split:true,collapsible:false,disabled:true" style="width:220px;">
         <%--        异步数 加载 系统菜单 --%>

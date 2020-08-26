@@ -176,7 +176,7 @@
         });
     });
 
-    /***********添加主持人操作*************/
+    /*******添加主持人操作*********/
     $(function(){
 
         // 点击 addHost 把 添加host的 dialog展示出来
@@ -213,11 +213,275 @@
         });
     });
 
+    /******账号禁用操作*******/
+    $(function () {
+
+        // 给账号禁用添加点击事件
+
+        $("#hostAccount").click(function () {
+
+            // 你判断 选中的host数据
+            var trs = $("#hostDataGird").datagrid("getChecked");
+            console.log(trs);
+
+            // 判断  选中了 数据
+            if (trs.length >=1){
+
+                // 获取主持人的 hid / statuss
+                var hids = "";
+                var statuss = "";
+                for(var i = 0 ; i < trs.length ; i ++){
+                    hids+=trs[i].hid + ",";
+                    statuss+=trs[i].status + ",";
+                }
+                //console.log(hids);
+                //console.log(statuss);
+
+                // 把数据发送到服务器
+                $.post("host/hostAccountUp.do",
+                    {
+                        hids:hids,
+                        statuss:statuss
+                    },function (data) {
+                        if(data.success){
+
+                            //提示信息
+                            $.messager.alert("提示",data.msg,"info");
+
+                            // datagrid 重写加载数据
+                            $("#hostDataGird").datagrid('reload');
+                        }else{
+                            $.messager.alert("提示",data.msg,"info");
+                        }
+                    },"json");
+            }else{
+                $.messager.alert("提示","选择需要设置权限的主持人","info");
+            }
+        });
+    });
+
+    /******编辑host的power********/
+
+    $(function () {
+         // 展示数据权限数据的回显
+        $("#editPower").click(function () {
+              // 拿到选中的数据 判断
+             var  trs = $("#hostDataGird").datagrid('getChecked');
+            console.log(trs);
+             if(trs.length == 1){
+                 // 修改power
+                 //  判断  host是否有power
+                 var hostPower = trs[0].hostPower;
+
+                 // 权限表中需要提交 hostid
+                 // 设置hostid提交到 服务器
+                 $("#hostid").val(trs[0].hid);
+
+                 if (hostPower){
+
+                     // 如果存在 hpid 修改权限
+                     // 如果没有这个hpid  添加权限
+                     $("#hpid").val(hostPower.hpid);
+
+                    // 有 进行回显
+                    // 拿到控件 设置数据
+                     hostPower.hpstar == "1" ? $("#hpstart_yes").radiobutton({checked:true}):$("#hpstart_no").radiobutton({checked:true});
+                     //星推荐日期的修改
+                     $("#hpstar_begindate").datebox("setValue",jsonToDate(hostPower.hpstartBegindate));
+                     $("#hpstar_enddate").datebox("setValue",jsonToDate(hostPower.hpstarEnddate));
+                     // 星推荐的时间
+                     $("#hpstar_begintime").timespinner("setValue",jsonToTime(hostPower.hpstarBegintime));
+                     $("#hpstar_endtime").timespinner("setValue",jsonToTime(hostPower.hpstarEndtime));
+
+                     // 自填订单数据
+                     hostPower.hpOrderPower== "1" ? $("#hpOrderPower_yes").radiobutton({checked:true}):
+                         $("#hpOrderPower_no").radiobutton({checked:true});
+
+                     // 折扣
+                     $("#hp_discount").textbox("setValue",hostPower.hpdiscount);
+
+                     // 折扣日期
+                     $("#hp_dis_starttime").datebox("setValue",jsonToDate(hostPower.hpDisStarttime));
+                     $("#hp_dis_endtime").datebox("setValue",jsonToDate(hostPower.hpDisEndtime));
+                     // 价格
+                     $("#hpprice").textbox("setValue",hostPower.hpprice);
+                     // 收费
+                     $("#hpcosts").textbox("setValue",hostPower.hpcosts);
+                 }
+                 // 如果没有就直接 编辑power
+                // 提交power的数据
+                // 展示  power
+                $("#hostPowerDialog").dialog('open');
+             }else if(trs.length > 1){
+                 $.messager.alert("提示", "只能选择一个", "error");
+             }else{
+                 $.messager.alert("提示", "敢不敢选择一个host", "error");
+             }
+
+        });
+
+        // 权限数据的提交
+        $("#hostPowerFromSubmit").click(function () {
+            // 提交数据
+            $("#hostPowerForm").form('submit',
+                {
+                    url:'hostPower/hostPowerSet.do',
+                    success:function (data) {
+
+                        var obj = JSON.parse(data);
+
+                        if(obj.success){
+                            //提示信息
+                            $.messager.alert("提示",obj.msg,"info");
+                            // 清空form表单的数据
+                            $("#hostPowerForm").form("clear");
+                            // 对话框关闭
+                            $("#hostPowerDialog").dialog('close');
+                            // datagrid 重写加载数据
+                            $("#hostDataGird").datagrid('reload');
+                        }else{
+                            $.messager.alert("提示",obj.msg,"info");
+                        }
+                    }
+                });
+        });
+
+    });
+
 
 </script>
 
-<%-- 添加host的 dialog --%>
+<script>
+    /************声明函数将json类型的时间转换为日期*********/
+    //日期转换
+    function jsonToDate(obj) {
+        return obj.year + "-" + obj.monthValue + "-" + obj.dayOfMonth;
+    }
+    //时间转换
+    function jsonToTime(obj) {
+        //return "17:45:00"
+        var h = obj.hour < 10 ? ("0" + obj.hour) : obj.hour;
+        var m = obj.minute < 10 ? "0" + obj.minute : obj.minute;
+        var s = obj.second < 0 ? "0" + obj.second : obj.second;
+        return h + ":" + m + ":" + s;
+    }
+</script>
 
+<%--设置日期框的格式--%>
+<script type="text/javascript">
+    //设置日期的格式
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+    }
+    function myparser(s) {
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10);
+        var d = parseInt(ss[2], 10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+            return new Date(y, m - 1, d);
+        } else {
+            return new Date();
+        }
+    }
+</script>
+
+<%--创建主持人权限设置的对话框--%>
+<div id="hostPowerDialog" class="easyui-dialog" title="权限设置" style="width:600px;height:550px;"
+     data-options="iconCls:'icon-save',resizable:false,modal:true,closed:true,left:100,top:10">
+    <%--创建主持人增加的表单--%>
+    <form id="hostPowerForm" method="post">
+        <%--创建隐藏标签存储要进行数据权限更新的ID--%>
+        <input type="hidden" name="hpid" id="hpid" value="">
+        <%--创建隐藏标签存储要进行数据权限更新的主持人的ID--%>
+        <input type="hidden" name="hostid" id="hostid" value="">
+        <%--创建表格--%>
+        <table cellpadding="10px" style="margin: auto;margin-top: 20px;">
+            <tr>
+                <td>是否星推荐:</td>
+                <td>
+                    <input class="easyui-radiobutton" id="hpstart_yes" name="hpstar" value="1" label="是"
+                           labelPosition="after">
+                    <input class="easyui-radiobutton" id="hpstart_no" name="hpstar" value="0" label="否"
+                           labelPosition="after">
+                </td>
+            </tr>
+
+            <tr>
+                <td>星推荐日期:</td>
+                <td>
+                    <input id="hpstar_begindate" data-options="formatter:myformatter,parser:myparser"
+                           data-options="showSeconds:true" name="hpstartBegindate" type="text" class="easyui-datebox">
+                    -
+                    <input id="hpstar_enddate" data-options="formatter:myformatter,parser:myparser" name="hpstarEnddate"
+                           type="text" class="easyui-datebox">
+                </td>
+            </tr>
+            <tr>
+                <td>星推荐时间:</td>
+                <td>
+                    <input id="hpstar_begintime" name="hpstarBegintime" type="text" data-options="showSeconds:true"
+                           class="easyui-timespinner">
+                    -
+                    <input id="hpstar_endtime" name="hpstarEndtime" type="text" data-options="showSeconds:true"
+                           class="easyui-timespinner">
+                </td>
+            </tr>
+            <tr>
+                <td>自填订单:</td>
+                <td>
+                    <input class="easyui-radiobutton" id="hpOrderPower_yes" name="hpOrderPower" value="1" label="是"
+                           labelPosition="after">
+                    <input class="easyui-radiobutton" id="hpOrderPower_no" name="hpOrderPower" value="0" label="否"
+                           labelPosition="after">
+                </td>
+            </tr>
+            <tr>
+                <td>折扣:</td>
+                <td>
+                    <input class="easyui-textbox" id="hp_discount" name="hpdiscount" prompt="请输入折扣" iconWidth="28"
+                           style="width:300px;height:34px;padding:10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>折扣日期:</td>
+                <td>
+                    <input id="hp_dis_starttime" data-options="formatter:myformatter,parser:myparser"
+                           name="hpDisStarttime" type="text" class="easyui-datebox">
+                    -
+                    <input id="hp_dis_endtime" data-options="formatter:myformatter,parser:myparser" name="hpDisEndtime"
+                           type="text" class="easyui-datebox">
+                </td>
+            </tr>
+            <tr>
+                <td>价格:</td>
+                <td>
+                    <input class="easyui-textbox" id="hpprice" name="hpprice" prompt="请输入价格" iconWidth="28"
+                           style="width:300px;height:34px;padding:10px;">
+                </td>
+            </tr>
+            <tr>
+            <td>管理费:</td>
+            <td>
+                <input class="easyui-textbox" id="hpcosts" name="hpcosts" prompt="请输入管理费" iconWidth="28"
+                       style="width:300px;height:34px;padding:10px;">
+            </td>
+        </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <a href="javascript:void(0)" id="hostPowerFromSubmit" class="easyui-linkbutton c3"
+                       style="width:120px">点击完成</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<%-- 添加host的 dialog --%>
 <div id="addHostDialog" class="easyui-dialog" title="添加主持人" style="width:400px;height:300px;"
      data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
 
@@ -259,7 +523,7 @@
 
         <select id="strong" class="easyui-combobox" data-options="editable:true,value:'权重排序',panelHeight:'auto'"
                 style="width:100px;">
-            <%--            升序降序 传入 配置规则  在服务器 代码中进行SQL的拼接 --%>
+            <%--            升序降序 传入 排序规则  在服务器 代码中进行SQL的拼接 --%>
             <option value="asc">升序</option>
             <option value="desc">降序</option>
         </select>
@@ -290,7 +554,7 @@
 
 <div id="hostToolBar">
     <a id="addHost" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加主持人</a>
-    <a id="hostAccount" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-no'">账号禁用</a>
+    <a id="hostAccount" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-no'">账号切换</a>
     <a id="editPower" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">权限设置</a>
     <a id="batch" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cut'">批量操作</a>
 </div>
