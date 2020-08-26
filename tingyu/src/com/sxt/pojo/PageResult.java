@@ -9,7 +9,7 @@ import java.util.List;
  *
  *   封装 DataGrid 分页的数据
  *
- *    total  页面总数
+ *    total  数据的总数
  *    rows   页面展示的数据
  *
  *    rows:{json数据集}

@@ -348,6 +348,54 @@
 
     });
 
+    /*******权限的批处理*******/
+    $(function () {
+
+        // 给批处理按钮添加 点击事件
+        $("#batch").click(function(){
+            // 判断选中的host
+           var trs = $("#hostDataGird").datagrid('getChecked');
+           if(trs.length >= 1){
+               // 需要把 主持人的id 发送到服务器 进行处理
+               var hids = "";
+               for(var i = 0 ; i < trs.length ; i ++){
+                  hids +=trs[i].hid + ",";
+               }
+               // 在表单中设置hids 这个字段 把数据发送到服务器
+                $("#hids").val(hids);
+                // 弹出编辑框
+               $("#hostPowerBatchDialog").dialog('open');
+           }else{
+               $.messager.alert("提示","需要选中一个host","info");
+           }
+        });
+
+        // 提交批处理的数据
+        $("#hostPowerBatchFromSubmit").click(function () {
+            // 表单提交数据
+            $("#hostPowerBatchForm").form('submit',{
+                url:"hostPower/hostPowerBatch.do",
+                success:function (data) {
+                   var  d = JSON.parse(data);
+                   if(d.success){
+                        // 成功
+                       // 提示
+                       $.messager.alert("提示",d.msg,"error");
+
+                       // 把表单清空
+                       $("#hostPowerBatchForm").form('reset')
+                       // datagrid 重写 加载数据
+                       $("#hostDataGird").datagrid('reload');
+                   }else{
+                       $.messager.alert("提示",d.msg,"error");
+                   }
+                    // diolog 关闭
+                    $("#hostPowerBatchDialog").dialog('close');
+                }
+            })
+        });
+
+    });
 
 </script>
 
@@ -389,6 +437,98 @@
         }
     }
 </script>
+
+<%--编辑主持人批处理权限设置的对话框--%>
+<div id="hostPowerBatchDialog" class="easyui-dialog" title="权限设置" style="width:600px;height:550px;"
+     data-options="iconCls:'icon-save',resizable:false,modal:true,closed:true,left:100,top:10">
+    <%--创建主持人增加的表单--%>
+    <form id="hostPowerBatchForm" method="post">
+
+<%--        设置hid 的隐藏标签 --%>
+        <input id="hids" type="hidden" name="hids">
+
+        <%--创建表格--%>
+        <table cellpadding="10px" style="margin: auto;margin-top: 20px;">
+            <tr>
+                <td>是否星推荐:</td>
+                <td>
+                    <input class="easyui-radiobutton" name="hpstar" value="1" label="是"
+                           labelPosition="after">
+                    <input class="easyui-radiobutton" name="hpstar" value="0" label="否"
+                           labelPosition="after">
+                </td>
+            </tr>
+
+            <tr>
+                <td>星推荐日期:</td>
+                <td>
+                    <input data-options="formatter:myformatter,parser:myparser"
+                           data-options="showSeconds:true" name="hpstartBegindate" type="text" class="easyui-datebox">
+                    -
+                    <input data-options="formatter:myformatter,parser:myparser" name="hpstarEnddate"
+                           type="text" class="easyui-datebox">
+                </td>
+            </tr>
+            <tr>
+                <td>星推荐时间:</td>
+                <td>
+                    <input name="hpstarBegintime" type="text" data-options="showSeconds:true"
+                           class="easyui-timespinner">
+                    -
+                    <input name="hpstarEndtime" type="text" data-options="showSeconds:true"
+                           class="easyui-timespinner">
+                </td>
+            </tr>
+            <tr>
+                <td>自填订单:</td>
+                <td>
+                    <input class="easyui-radiobutton" name="hpOrderPower" value="1" label="是"
+                           labelPosition="after">
+                    <input class="easyui-radiobutton" name="hpOrderPower" value="0" label="否"
+                           labelPosition="after">
+                </td>
+            </tr>
+            <tr>
+                <td>折扣:</td>
+                <td>
+                    <input class="easyui-textbox" name="hpdiscount" prompt="请输入折扣" iconWidth="28"
+                           style="width:300px;height:34px;padding:10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>折扣日期:</td>
+                <td>
+                    <input data-options="formatter:myformatter,parser:myparser"
+                           name="hpDisStarttime" type="text" class="easyui-datebox">
+                    -
+                    <input data-options="formatter:myformatter,parser:myparser" name="hpDisEndtime"
+                           type="text" class="easyui-datebox">
+                </td>
+            </tr>
+            <tr>
+                <td>价格:</td>
+                <td>
+                    <input class="easyui-textbox" name="hpprice" prompt="请输入价格" iconWidth="28"
+                           style="width:300px;height:34px;padding:10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>管理费:</td>
+                <td>
+                    <input class="easyui-textbox" name="hpcosts" prompt="请输入管理费" iconWidth="28"
+                           style="width:300px;height:34px;padding:10px;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <a href="javascript:void(0)" id="hostPowerBatchFromSubmit" class="easyui-linkbutton c3"
+                       style="width:120px">点击完成</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 
 <%--创建主持人权限设置的对话框--%>
 <div id="hostPowerDialog" class="easyui-dialog" title="权限设置" style="width:600px;height:550px;"
