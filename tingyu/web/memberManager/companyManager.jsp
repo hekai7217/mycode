@@ -230,6 +230,47 @@
         });
     });
 
+    /*******账号的状态的修改********/
+    $(function () {
+
+        $("#accountCompanyUp").click(function () {
+            //拿到选中的数据
+            var trs = $("#companyDataGird").datagrid('getChecked');
+            // 把公司数据的id 和 status 发送到服务器 进行更新操作
+            if (trs.length >=1){
+                // 把多个公司的 cid 和状态进行拼接
+                var cids = "";
+                var statuss = "";
+                for(var i = 0 ;i < trs.length; i ++){
+                    cids +=trs[i].cid+",";
+                    statuss +=trs[i].status+",";
+                }
+                // ajax放数据
+                $.post("company/accountCompanyUp.do",
+                    {cids:cids,statuss:statuss},
+                    function (data) {
+
+                       //判断是否成功
+                        if (data.success){
+                            //更新成功
+                            //提示
+                            $.messager.alert("提示",data.msg,"info");
+                            // datagrid 重新加载
+                            $("#companyDataGird").datagrid('reload');
+                        }else{
+                            //更新失败
+                            $.messager.alert("提示",data.msg,"info");
+                        }
+                    },"json");
+            }else{
+                $.messager.alert("提示","必须选中一个公司数据","info");
+            }
+
+        });
+
+
+    });
+
 </script>
 
 <%--展示公司的 策划师的对话框对话框--%>
@@ -346,7 +387,7 @@
     <a id="addCompany" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加公司</a>
     <a id="editCompany" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">编辑公司</a>
     <a id="planList" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'">策划师列表</a>
-    <a id="batch" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cut'">账号状态切换</a>
+    <a id="accountCompanyUp" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cut'">账号状态切换</a>
 </div>
 
 </body>

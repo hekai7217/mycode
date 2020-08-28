@@ -294,8 +294,7 @@
                      $("#hpstar_endtime").timespinner("setValue",jsonToTime(hostPower.hpstarEndtime));
 
                      // 自填订单数据
-                     hostPower.hpOrderPower== "1" ? $("#hpOrderPower_yes").radiobutton({checked:true}):
-                         $("#hpOrderPower_no").radiobutton({checked:true});
+                     hostPower.hpOrderPower== "1" ? $("#hpOrderPower_yes").radiobutton({checked:true}): $("#hpOrderPower_no").radiobutton({checked:true});
 
                      // 折扣
                      $("#hp_discount").textbox("setValue",hostPower.hpdiscount);
