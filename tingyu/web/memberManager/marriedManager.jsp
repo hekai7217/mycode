@@ -17,9 +17,8 @@
 <body>
 
 <script>
+    /*********初始化datagrid *********/
     $(function () {
-
-        /*********初始化datagrid *********/
         $("#marriedPersionDatagrid").datagrid({
             url:"marriedPerson/marriedPersonInfo.do",
             pagination:true, // 分页工具栏
@@ -48,6 +47,23 @@
         });
 
     });
+
+    /****新人的条件查询************/
+
+    $(function () {
+
+        // 给查询按钮添加点击事件
+        $("#search").click(function () {
+            // datagrid 发送添加 查询数据
+            $("#marriedPersionDatagrid").datagrid("load",{
+                pname:$("#pname").val(),
+                phone:$("#phone").val()
+            });
+        });
+
+    });
+
+
 </script>
 
 <div id="p" class="easyui-panel"
@@ -55,6 +71,15 @@
      data-options="fit:true,iconCls:'icon-save',closable:false,
     collapsible:false,minimizable:false,maximizable:false">
 
+    <div style="margin: auto;width:700px;text-align: center;margin-top: 5px;margin-bottom: 5px">
+
+        <%--  新人条件查询条件 --%>
+        <input id="pname" class="easyui-textbox" prompt="新人姓名" style="width:100px">
+        <input id="phone" class="easyui-textbox" prompt="新人手机号" style="width:100px">
+
+        <a id="search" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+
+    </div>
 
     <table id="marriedPersionDatagrid"></table>
 

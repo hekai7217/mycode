@@ -202,11 +202,8 @@
      style="width:500px;height:300px;padding:10px;background:#fafafa;"
      data-options="iconCls:'icon-save',closable:false,
     collapsible:false,minimizable:false,maximizable:false">
-
     <%--    展示数据网格组件--%>
     <table id="stuDataGird"></table>
-
-
 </div>
 
 <div id="stuToolBar">

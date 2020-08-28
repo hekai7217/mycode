@@ -9,10 +9,10 @@ import java.util.Map;
  */
 public class TreeResult {
 
-    private String id;
-    private String text;
+    private String id;  // 菜单树 的id
+    private String text;  // 菜单的显示文本
 
-    private String state;
+    private String state;   // 状态  父级菜单 close
 
     // 异步树的 自定义属性
     private Map<String,Object> attributes;

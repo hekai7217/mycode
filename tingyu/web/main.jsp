@@ -29,8 +29,6 @@
                 console.log(node);
             //2 判断是否有子菜单
                 // 判断的数据最好从服务器获取 是否是 parent 节点
-
-
                var isparent = node.attributes.isparent;
                // isparent = 1 是父节点
                if(isparent != 1){
