@@ -43,8 +43,8 @@ public class AliPhoneUtil {
         final String domain = "dysmsapi.aliyuncs.com";//短信API产品域名（接口地址固定，无需修改）
 
         //替换成你的AK
-        final String accessKeyId = "LTAI4G2Jr26FmDUWJS5qLCpk";//你的accessKeyId,参考本文档步骤2
-        final String accessKeySecret = "FzyW3zqpZvO7SRsbgDMdc44Cd45m8n";//你的accessKeySecret，参考本文档步骤2
+        final String accessKeyId = "LTAI4G2Jr26FmDU";//你的accessKeyId,参考本文档步骤2
+        final String accessKeySecret = "FzyW3zqpZvO7SRsbgD";//你的accessKeySecret，参考本文档步骤2
 
         //初始化ascClient,暂时不支持多region（请勿修改）
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,
