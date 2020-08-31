@@ -196,7 +196,7 @@
 <div id="addMenuDialog" class="easyui-dialog" title="添加菜单信息" style="width:320px;height:260px;"
      data-options="top:10,iconCls:'icon-save',resizable:true,modal:true,closed:true">
 
-    <%--        添加公司的表单 --%>
+    <%--        添加菜单的表单 --%>
     <form id="addMenuForm" method="post">
 
         <input type="hidden" id="pid" name="pid">

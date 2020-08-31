@@ -1,4 +1,5 @@
 package com.sxt.pojo;
+import java.util.List;
 import java.util.Map;
 /**
  * @author 黄药师
@@ -16,6 +17,17 @@ public class TreeResult {
 
     // 异步树的 自定义属性
     private Map<String,Object> attributes;
+
+    // 节点中添加子节点
+    private List<TreeResult> children;
+
+    public List<TreeResult> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<TreeResult> children) {
+        this.children = children;
+    }
 
     public Map<String, Object> getAttributes() {
         return attributes;
