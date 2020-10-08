@@ -43,7 +43,7 @@ public class TestMp {
         stu.setSsex("女");
         stu.setSid(15);
 
-        // 插入   一起哟弄mapper操作
+        // 插入
         // ar 模式 可以直接用对象操作数据
 //        boolean insert = stu.insert();
 //        System.out.println("insert = " + insert);

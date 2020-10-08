@@ -101,8 +101,6 @@
             <div title="Tab1" style="padding:20px;display:none;" data-options="closable:true"> tab1</div>
         </div>
     </div>
-
-
 </div>
 
 </body>

@@ -131,19 +131,24 @@ public class TestMp04 {
     @Test
     public void query04(){
         // 统计   selectCount
-        // 条件删除
+        //
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-
         //年龄小于 30
         queryWrapper.lt("sage",30);
         int count = studentMapper.selectCount(queryWrapper);
         System.out.println("count = " + count);
-        // 返回第一个字段的值
+        //根据 Wrapper 条件，查询全部记录。注意： 只返回第一个字段的值
         QueryWrapper<Student> queryWrapper2 = new QueryWrapper<>();
         queryWrapper2.lt("sage",40);
         List<Object> objects = studentMapper.selectObjs(queryWrapper2);
-
         System.out.println("objects = " + objects);
+
+        // 查询 指定的 字段
+        QueryWrapper<Student> queryWrapper3 = new QueryWrapper<>();
+        queryWrapper3.select("s_name", "sage");
+        List<Student> students = studentMapper.selectList(queryWrapper3);
+        System.out.println("students = " + students);
+
     }
 }
 
