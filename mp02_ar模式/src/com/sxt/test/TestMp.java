@@ -92,11 +92,9 @@ public class TestMp {
      */
     @Test
     public void arQuery(){
-
         // 1 拿到 ioc容器
         ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         // updateById 更新
-
         Student stu = new Student();
         stu.setSid(7);
 
